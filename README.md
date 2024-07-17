@@ -45,9 +45,44 @@ Authorization: Basic <xxxxxx>
 
 ```
 
+Digest
+```
+<xxx>   => md5(base64("arnav:abcd123"))
+```
+
 Why is it bad? 
 
 - have to pass it everytime (might need user to type it every time) 
 - sniff - easy to read your password 
   - happens on *EVERY* request - so larger surface area of attack 
 - user fetch + password match = large overhead for each request 
+
+
+### Encoding, Encryption, Signing 
+
+- encoding          decoding
+- encryption        decryption
+- compression       decompression
+
+- hashing 
+
+### HS256 JWT 
+
+
+header = `{alg:JWT,typ:HS256}` 
+payload = `{"sub":"1234567890","iat":1516239022,"exp":1516239922}` 
+
+
+hash =  sha256(base64(header) + "." + base64(payload))
+
+26000efbbee7aca101863786306eb5a6537b9daa2d7b04110075ac8940c4d614
+
+signature = hmac (hash, key)
+
+```
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMzYyNDU0IiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyMzk5MjJ9.nPB0_xHOyOGNgizMfx7_tfjiL_2nquiV2gK1n0GhWSQ
+```
+
+```
+Authorization: JWT xxxx
+```
